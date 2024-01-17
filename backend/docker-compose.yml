@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  rq-dashboard:
+    image: jaredv/rq-docker:0.0.2 
+    command: rq-dashboard -H redis
+    ports:
+      - 9181:9181
+    depends_on:
+      - redis
+      - rq-worker
+
+  rq-worker:
+    build: .
+    command: rq worker -u redis://redis:6379
+    depends_on:
+      - redis
+
+  backend-api:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --reload
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/var/lib/redis
+
+volumes:
+  redis:
