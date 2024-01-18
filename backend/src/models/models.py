@@ -1,11 +1,10 @@
+from core.database import Base, get_async_session
 from fastapi import Depends
 from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import Mapped, declared_attr, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
-
-from src.core.database import Base, get_async_session
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
@@ -35,8 +34,8 @@ class Prediction(Base):
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
-    input_file_path: Mapped[str] = mapped_column(String(length=320), nullable=False)
-    output_file_path: Mapped[str] = mapped_column(String(length=320), nullable=True)
+    input_filename: Mapped[str] = mapped_column(String(length=320), nullable=False)
+    predictions: Mapped[str] = mapped_column(String(length=320), nullable=True)
 
     model: Mapped["Model"] = relationship("Model", back_populates="predictions")
     user: Mapped["User"] = relationship("User", back_populates="predictions")

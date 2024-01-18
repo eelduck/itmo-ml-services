@@ -1,18 +1,19 @@
+import os
+
+import pandas as pd
+from joblib import load
 from redis import Redis
 from rq import Queue
-
-from task import my_task
+from worker_task import predict_task
 
 redis_conn = Redis(host="localhost", port=6379)
 queue = Queue(connection=redis_conn)
 
+lgbm_model = load(os.path.join(os.pardir, "models", "lgbm.joblib"))
+data = pd.read_csv(os.path.join(os.pardir, "models", "android_test.csv"), sep=";")
 
 # Добавление задачи в очередь
-job = queue.enqueue(my_task, args=(3, 4))
-job = queue.enqueue(my_task, args=(3, 5))
-job = queue.enqueue(my_task, args=(3, 6))
-job = queue.enqueue(my_task, args=(3, 7))
-job = queue.enqueue(my_task, args=(3, 8))
+job = queue.enqueue(predict_task, args=(data, lgbm_model, 1))
 job_id = job.get_id()
 job_status = job.get_status()
 
