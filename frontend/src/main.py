@@ -36,7 +36,7 @@ def display_page(pathname):
         print("Returning Predictions Layout")
         return [predictions_layout]
     else:
-        return "404 Page Not Found", False
+        return ["404 Page Not Found"]
 
 
 app.callback(
