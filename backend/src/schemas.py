@@ -19,3 +19,4 @@ class PredictionSchema(BaseModel):
     model_id: int
     filename: str
     predictions: str | None
+    created_at: str

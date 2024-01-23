@@ -4,17 +4,16 @@ import pandas as pd
 from auth.auth import auth_backend
 from auth.user_manager import get_user_manager
 from core.database import get_async_session
-from fastapi import (APIRouter, Depends, FastAPI, File, HTTPException,
-                     UploadFile)
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from fastapi_users import FastAPIUsers
 from joblib import load
-from models.models import User
+from models import User
 from redis import Redis
 from rq import Queue
 from schemas import ModelSchema, PredictionSchema, UserSchema
 from services import ModelService, PredictionService, UserService
 from sqlalchemy.ext.asyncio import AsyncSession
-from worker_task import predict_task
+from worker.worker_task import predict_task
 
 predictions_router = APIRouter(prefix="/predictions")
 models_router = APIRouter(prefix="/models")
@@ -55,6 +54,7 @@ async def get_user_predictions(
             model_id=prediction.model_id,
             filename=prediction.input_filename,
             predictions=prediction.predictions,
+            created_at=str(prediction.created_at),
         )
         for prediction in predictions
     ]

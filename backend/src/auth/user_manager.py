@@ -2,9 +2,9 @@ from typing import Optional
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
-from models.models import User, get_user_db
+from models import User, get_user_db
 
-SECRET = "SECRET"
+SECRET = "SECRET"  # TODO: Move to .env
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):

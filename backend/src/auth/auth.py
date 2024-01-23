@@ -5,7 +5,7 @@ from fastapi_users.authentication import (AuthenticationBackend,
 cookie_transport = CookieTransport(cookie_max_age=3600)
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
-SECRET = "mysecret"
+SECRET = "mysecret"  # TODO: Move to .env
 
 
 def get_jwt_strategy() -> JWTStrategy:

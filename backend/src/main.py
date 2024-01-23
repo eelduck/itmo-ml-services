@@ -1,10 +1,8 @@
 from auth.auth import auth_backend
 from auth.schemas import UserCreate, UserRead
-from auth.user_manager import get_user_manager
 from core.database import create_db_and_tables
 from fastapi import FastAPI
-from fastapi_users import FastAPIUsers, fastapi_users
-from models.models import User
+from fastapi_users import fastapi_users
 from routes import (fastapi_users, models_router, predictions_router,
                     user_router)
 

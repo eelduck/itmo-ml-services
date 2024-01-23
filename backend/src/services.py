@@ -1,4 +1,4 @@
-from models.models import Model, Prediction, User
+from models import Model, Prediction, User
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 

@@ -162,3 +162,5 @@ cython_debug/
 original_src/
 
 .python-version
+
+.sql
