@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  rq-dashboard:
+    image: jaredv/rq-docker:0.0.2 
+    command: rq-dashboard -H redis
+    ports:
+      - 9181:9181
+    depends_on:
+      - redis
+      - rq-worker
+
+  rq-worker:
+    build: backend/.
+    command: rq worker -u redis://redis:6379
+    depends_on:
+      - redis
+    volumes:
+      - sqlite-db:/app/db/
+
+  backend-api:
+    build: backend/.
+    command: uvicorn main:app --host 0.0.0.0 --reload
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+    volumes:
+      - sqlite-db:/app/db/
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/var/lib/redis
+
+  frontend:
+    build: frontend/.
+    command: python3 src/main.py
+    ports:
+      - 8050:8050
+    depends_on:
+      - backend-api
+
+volumes:
+  redis:
+  sqlite-db:
