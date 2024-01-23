@@ -13,45 +13,25 @@
 
 ## Запуск системы
 
-- Для запуска системы введите команды
+У вас должен быть установлен docker и docker-compose
+
+- Для запуска системы введите команду
     ```bash
-    cd src/
-    python gradio_app.py
+    docker-compose up -d --build
     ```
-  После этого у вас запустится Gradio приложение по адресу http://localhost:7860/
+  После этого у вас запустится Dash приложение по адресу http://localhost:8050/
 
 ## Демо
-- Введите желаемую должность, сколько лет опыта, ваши ключевые навыки и описание опыта работы.
-- Нажмите кнопку __Подобрать вакансии__
-- В течение 5 секунд вам выведется топ 5 вакансий под ваше резюме
+1. Зарегистрируйтесь в приложении - http://localhost:8050/register
 
-![image](https://github.com/DmitryChatBotov/resume-vacancy-matching/assets/41739221/e1622b08-68c6-4cc3-a00f-4c88b2bad0d7)
+![image](https://github.com/eelduck/itmo-ml-services/assets/41739221/c76efc92-1b23-423a-9567-3891c4efea0f)
 
-### Оценка производительность демо:
- - RPS: 10
- - Объем данных в базе вакансий: 1200+. Выбирали только IT вакансии. Ищем тоже собственно по IT вакансиям
-   
-## Эксперименты
-- FAISS search + Reranker (cross-encoder) - [/notebooks/experiments/faiss_reranker.ipynb](/notebooks/experiments/faiss_reranker.ipynb). Этот подход реализован в демо приложении
-- BM25 search + SBERT + Reranker (cross-encoder) - [/notebooks/experiments/bm25_sbert_ranking.ipynb](/notebooks/experiments/bm25_sbert_ranking.ipynb)
-- BerTopic - [/notebooks/experiments/bertopic.ipynb](/notebooks/experiments/bertopic.ipynb)
-- Milvus search - [/notebooks/experiments/baseline_milvus.ipynb](/notebooks/experiments/baseline_milvus.ipynb) (для запуска нужно запустить файл docker-compose.yaml, который поднимет базу для milvus)
-### Метрики
-| Подход | F1 | Precision | Recall | TopK|
-| --- | --- | --- | --- | --- |
-|FAISS+Rerancer | 0.17 | 0.12 | 0.14 | 10 |
-| BM25+SBERT+Reranker|0.15|0.11|0.13|10|
-| BerTopic|0.07 | 0.09| 0.07 | 10|
-|Milvus |0.1 | 0.1| 0.11|10|
+2. Войдите в свой аккаунт - http://localhost:8050/login
 
+![image](https://github.com/eelduck/itmo-ml-services/assets/41739221/d4090b43-ec5e-4d0d-8ff2-b4a205a21b2b)
 
-## Сравнение энкодеров
-Был собран датасет из 15 вакансий и 15 резюме, с помощью GPT-4 он был размечен на релевантность. Каждая вакансия с каждым резюме. На основе этого датасета и косинусной близости были просчитаны метрики работы энкодеров
+3. Далее вас перенаправит на основную страницу приложения - 
 
-| Модель | Accuracy |  Precision@10 | Recall@10 | F1@10 |
-| --- | --- | --- | --- | --- |
-| [intfloat/multilingual-e5-large](https://huggingface.co/intfloat/multilingual-e5-large)| 0.830 |  0.175 | 0.124 | 0.145 |
-| [sentence-transformers/paraphrase-multilingual-mpnet-base-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2)| 0.805 |  0.156 | 0.180 | 0.127 |
-| [sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2)| 0.810 |  0.138 | 0.094 | 0.111 |
-| [sentence-transformers/distiluse-base-multilingual-cased-v1](https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1)| 0.831 |  0.131 | 0.091 | 0.107 |
-| [cointegrated/LaBSE-en-ru](https://huggingface.co/cointegrated/LaBSE-en-ru)| 0.823 |  0.169 | 0.119 | 0.139 |
+![image](https://github.com/eelduck/itmo-ml-services/assets/41739221/ba0b7673-c45a-48b3-bb11-41e0370d4466)
+
+Здесь вы можете: 
